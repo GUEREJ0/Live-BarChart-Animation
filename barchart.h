@@ -13,7 +13,7 @@ using namespace std;
 // use these in barchartanimate.h, but you might find some useful here.
 const string BOX = "\u29C8";
 const string CLEARCONSOLE = "\033[2J";
-const string RESET("\033[0m");
+// const string RESET("\033[0m");
 
 
 //
@@ -39,7 +39,6 @@ const string BLUE("\033[1;34m");
 const string WHITE("\033[1;37m");
 const string RESET("\033[0m");
 const vector<string> COLORS = {CYAN, GREEN, GOLD, RED, PURPLE, BLUE, WHITE};
-
 
 
 //

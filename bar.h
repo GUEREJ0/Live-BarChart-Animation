@@ -14,6 +14,9 @@ class Bar {
     // Private member variables for a Bar object
     // TO DO:  Define private member variables for this class
     // NOTE: You should not be allocating memory on the heap for this class.
+    string name;
+    int value;
+    string category;
 
  public:
 
@@ -21,6 +24,9 @@ class Bar {
     Bar() {
         
         // TO DO:  Write this constructor.
+        name = "";
+        value = 0;
+        category = "";
         
     }
 
@@ -32,6 +38,9 @@ class Bar {
     Bar(string name, int value, string category) {
         
         // TO DO:  Write this constructor.
+        this->name = name;
+        this->value = value;
+        this->category = category;
         
     }
 
@@ -43,45 +52,51 @@ class Bar {
     }
 
     // getName:
-	string getName() {
+	string getName() const{
         
         // TO DO:  Write this function.
         
-        return "";  // TO DO:  update this, it is only here so code compiles.
+        return name;  // TO DO:  update this, it is only here so code compiles.
 	}
 
     // getValue:
-	int getValue() {
+	int getValue() const{
         
 		// TO DO:  Write this function.
         
-        return 0;    // TO DO:  update this, it is only here so code compiles.
+        return value;    // TO DO:  update this, it is only here so code compiles.
 	}
 
     // getCategory:
-	string getCategory() {
+	string getCategory() const{
         
         // TO DO:  Write this function.
         
-        return ""; // TO DO:  update this, it is only here so code compiles.
+        return category; // TO DO:  update this, it is only here so code compiles.
 	}
 
 	// operators
     // TO DO:  Write these operators.  This allows you to compare two Bar
     // objects.  Comparison should be based on the Bar's value.  For example:
 	bool operator<(const Bar &other) const {
-        return true;  // TO DO:  update this, it is only here so code compiles.
+
+        if(this->value < other.getValue()){return true;}
+        return false;  // TO DO:  update this, it is only here so code compiles.
 	}
 
 	bool operator<=(const Bar &other) const {
-        return true;  // TO DO:  update this, it is only here so code compiles.
+        if(this->value <= other.getValue()){ return true;}
+        return false;  // TO DO:  update this, it is only here so code compiles.
 	}
 
 	bool operator>(const Bar &other) const {
-        return true;  // TO DO:  update this, it is only here so code compiles.
+        if(this->value > other.getValue()) {return true;}
+        return false;  // TO DO:  update this, it is only here so code compiles.
 	}
 
 	bool operator>=(const Bar &other) const {
+        if(this->value >= other.getValue()) {return true;}
+        
         return true;  // TO DO:  update this, it is only here so code compiles.
 	}
 };
