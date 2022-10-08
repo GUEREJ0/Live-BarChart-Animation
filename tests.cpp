@@ -35,9 +35,57 @@ bool testBarParamConstructor() {
     return true;
 }
 
+bool testBarOperatorOverload(){
+	Bar b1("Chicago", 20, "US");
+	Bar b2("New York", 50, "US");
+	if(b2 < b1){
+		cout << "testBarOperatorOverload: >operator failed\n";
+		return false;
+	}
+	else if(b2 <= b1){
+		cout << "testBarOperatorOverload: >= operator failed\n";
+		return false;
+	}
+	else if(b2 < b1){
+		cout << "testBarOperatorOverload: >= operator failed\n";
+		return false;
+	}
+	else if(b2 <= b1){
+		cout << "testBarOperatorOverload: >= operator failed\n";
+		return false;
+	}
+	cout << "testBarOperatorOverload passed!\n";
+	return true;
+	
+}
+
+void testGraph(map<string, string> colorMap){
+	BarChart bc(3);
+	bc.addBar("Chicago", 1020, "NA");
+	bc.addBar("Paris", 1200, "Europe");
+	bc.addBar("Chicago", 1300, "NA");
+	bc.graph(cout, colorMap, 3);
+
+}
+
 int main() {
 	testBarDefaultConstructor();
 	testBarParamConstructor();
+	testBarOperatorOverload();
+
+	map <string, string> colorMap;
+	colorMap.emplace("CYAN", CYAN);
+	colorMap.emplace("GREEN", GREEN);
+	colorMap.emplace("GOLD", GOLD);
+	colorMap.emplace("RED", RED);
+	colorMap.emplace("PURPLE", PURPLE);
+	colorMap.emplace("BLUE", BLUE);
+	colorMap.emplace("WHITE", WHITE);
+	colorMap.emplace("RESET", RESET);
+
+	cout << " ==========================================================\n";
+	testGraph(colorMap);
+	
 	
     return 0;
 }

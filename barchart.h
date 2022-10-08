@@ -56,13 +56,17 @@ class BarChart {
     Bar* bars;  // pointer to a C-style array
     int capacity;
     int size;
+    string frame;
     
  public:
     
     // default constructor:
     BarChart() {
-        
-        // TO DO:  Write this constructor.
+
+        bars = nullptr;
+        capacity = 0;
+        size = 0;
+        string frame;
         
     }
     
@@ -71,6 +75,9 @@ class BarChart {
     BarChart(int n) {
         
         // TO DO:  Write this constructor.
+        bars = new Bar[n];
+        capacity = n;
+        size = 0;
         
     }
 
@@ -83,8 +90,13 @@ class BarChart {
     //
     BarChart(const BarChart& other) {
         
-        // TO DO:  Write this constructor.
-        
+        bars = new Bar[other.size];
+        this->size = other.size;
+        this->capacity = other.capacity;
+
+        for(int i = 0; i < other.getSize(); i++){
+            this->bars[i] = other.bars[i];
+        }
     }
     //
     // copy operator=
@@ -93,8 +105,10 @@ class BarChart {
     //
     BarChart& operator=(const BarChart& other) {
         BarChart bc;
-        
-        // TO DO:  Write this operator.
+
+        bc.bars = other.bars;
+        bc.size = other.size;
+        bc.capacity = other.capacity;
         
         return bc;   // TO DO:  update this, it is only here so code compiles.
     }
@@ -102,8 +116,11 @@ class BarChart {
     // clear
     // frees memory and resets all private member variables to default values.
     void clear() {
-        
-        // TO DO:  Write this operator.
+
+        delete[] bars; // Deallocate the array, and delete everything inside it.
+        bars = nullptr;
+        capacity = 0;
+        size = 0;
         
     }
     
@@ -116,45 +133,36 @@ class BarChart {
     virtual ~BarChart() {
 
         // TO DO:  Write this destructor.
+        delete[] bars;
         
     }
     
     // setFrame
-    void setFrame(string frame) {
-    	
-        // TO DO:  Write this destructor.
-        
-    }
+    void setFrame(string frame) {this->frame = frame;}
     
     // getFrame()
     // Returns the frame of the BarChart oboject.
-    string getFrame() {
-        
-        // TO DO:  Write this function.
-        
-        return ""; // TO DO:  update this, it is only here so code compiles.
-    }
+    string getFrame() const {return frame;}
 
     // addBar
     // adds a Bar to the BarChart.
     // returns true if successful
     // returns false if there is not room
     bool addBar(string name, int value, string category) {
-        
-        // TO DO:  Write this function.
-        
-        return true; // TO DO:  update this, it is only here so code compiles.
+
+        if(capacity != size){
+            Bar temp(name, value, category);
+            bars[capacity] = temp;
+            capacity++;
+            return true;
+        }
+        return false;
     }
     
     // getSize()
     // Returns the size (number of bars) of the BarChart object.
-    int getSize() {
-        
-        // TO DO:  Write this function.
-        
-        return 0;  // TO DO:  update this, it is only here so code compiles.
-    }
-    
+    int getSize() const {return size;}
+  
     // operator[]
     // Returns Bar element in BarChart.
     // This gives public access to Bars stored in the Barchart.
@@ -162,10 +170,15 @@ class BarChart {
     // "BarChart: i out of bounds"
     Bar& operator[](int i) {
         Bar b;
+
+        if(i > 0 && i < capacity){
+            b = bars[i];
+            cout << b.getName() << " " << b.getValue() << " " << b.getCategory() << endl;
+        }else{
+            throw out_of_range("BarChart: i out of bounds");
+        }
         
-        // TO DO:  Write this function.
-        
-        return b;  // TO DO:  update this, it is only here so code compiles.
+        return b;
     }
     
     // dump
@@ -179,8 +192,10 @@ class BarChart {
     // cname 3 category3" <-newline here
     void dump(ostream &output) {
 
-        // TO DO:  Write this function.
-        
+        output << "frame:" << frame << endl; 
+        for(int i = 0; i < capacity; i++){
+            output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
+        }
     }
     
     // graph
@@ -190,16 +205,37 @@ class BarChart {
     // top is number of bars you'd like plotted on each frame (top 10? top 12?)
     void graph(ostream &output, map<string, string> &colorMap, int top) {
     	int lenMax = 60;  // this is number of BOXs that should be printed
+        int nBoxes = lenMax;
                           // for the top bar (max value)
-        
+        sort(bars, bars+capacity, greater<Bar>());
+
+
+        for(int i = 0; i <= capacity; i++){
+            output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
+        }
+
         // TO DO: read this example and this erase it.
         // e.g. Here I am plotting 60 red BOXs to output
         string color = "\033[1;36m";  // you should get this from colorMap
         string barstr = "";
-        for (int i = 0; i < lenMax; i++) {
+        for (int i = 0; i < lenMax; i++) { // Print the box
             barstr += BOX;
         }
-        output << color << barstr << endl;
+        output << color << barstr << " ";
+        barstr.clear();
+
+        for(int i = 1; i <= capacity; i++){
+            // cout << bars[i] << endl;
+
+
+
+            
+        }
+        return;
+
+        
+        
+        
     	
         // TO DO:  Write this function.
         
