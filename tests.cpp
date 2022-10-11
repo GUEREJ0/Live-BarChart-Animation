@@ -59,12 +59,27 @@ bool testBarOperatorOverload(){
 	
 }
 
+void testBarChart(){
+	BarChart bc(3);
+	bc.addBar("Chicago", 1020, "NA");
+	bc.addBar("Paris", 1200, "Europe");
+	bc.addBar("Chicago", 1300, "NA");
+	BarChart test(10);
+	test = bc;
+	BarChart test2(bc);
+	bc.dump(cout);
+	test.dump(cout);
+	test2.dump(cout);
+}
+
 void testGraph(map<string, string> colorMap){
 	BarChart bc(3);
 	bc.addBar("Chicago", 1020, "NA");
 	bc.addBar("Paris", 1200, "Europe");
 	bc.addBar("Chicago", 1300, "NA");
+	bc.dump(cout);
 	bc.graph(cout, colorMap, 3);
+	return;
 
 }
 
@@ -84,7 +99,8 @@ int main() {
 	colorMap.emplace("RESET", RESET);
 
 	cout << " ==========================================================\n";
-	testGraph(colorMap);
+	// testGraph(colorMap);
+	testBarChart(); // Function to test copy constructors and for memory leaks.
 	
 	
     return 0;

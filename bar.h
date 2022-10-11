@@ -97,7 +97,7 @@ class Bar {
 	bool operator>=(const Bar &other) const {
         if(this->value >= other.getValue()) {return true;}
         
-        return true;  // TO DO:  update this, it is only here so code compiles.
+        return false;  // TO DO:  update this, it is only here so code compiles.
 	}
 };
 

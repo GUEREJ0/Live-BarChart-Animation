@@ -76,8 +76,8 @@ class BarChart {
         
         // TO DO:  Write this constructor.
         bars = new Bar[n];
-        capacity = n;
-        size = 0;
+        capacity = 0;
+        size = n;
         
     }
 
@@ -91,12 +91,13 @@ class BarChart {
     BarChart(const BarChart& other) {
         
         bars = new Bar[other.size];
-        this->size = other.size;
-        this->capacity = other.capacity;
+        size = other.size;
+        capacity = other.capacity;
 
-        for(int i = 0; i < other.getSize(); i++){
-            this->bars[i] = other.bars[i];
+        for(int i = 0; i < other.size; i++){
+            bars[i] = other.bars[i];
         }
+
     }
     //
     // copy operator=
@@ -104,13 +105,20 @@ class BarChart {
     // Called when you assign one BarChart into another, i.e. this = other;
     //
     BarChart& operator=(const BarChart& other) {
-        BarChart bc;
 
-        bc.bars = other.bars;
-        bc.size = other.size;
-        bc.capacity = other.capacity;
+        if(this == &other) {return *this;}
         
-        return bc;   // TO DO:  update this, it is only here so code compiles.
+        if(bars != nullptr){delete [] bars;}
+
+        bars = new Bar[other.size];
+        this->size = other.size;
+        this->capacity = other.capacity;
+
+        for(int i = 0; i < other.getSize(); i++){
+            this->bars[i] = other.bars[i];
+        }
+
+        return *this;
     }
 
     // clear
@@ -133,7 +141,7 @@ class BarChart {
     virtual ~BarChart() {
 
         // TO DO:  Write this destructor.
-        delete[] bars;
+        if(bars != nullptr){delete[] bars;}
         bars = nullptr;
         capacity = 0;
         size = 0;
@@ -152,13 +160,17 @@ class BarChart {
     // returns true if successful
     // returns false if there is not room
     bool addBar(string name, int value, string category) {
+        cout << "SIZE : " << size << endl;
+        cout << "Capacity : " << capacity << endl;
 
-        if(capacity != size){
+        if(capacity < size){
             Bar temp(name, value, category);
             bars[capacity] = temp;
             capacity++;
+            cout << "Added.\n";
             return true;
         }
+        cout << "Did not add.\n";
         return false;
     }
     
@@ -172,16 +184,14 @@ class BarChart {
     // If i is out of bounds, throw an out_of_range error message:
     // "BarChart: i out of bounds"
     Bar& operator[](int i) {
-        Bar b;
 
         if(i > 0 && i < capacity){
-            b = bars[i];
-            cout << b.getName() << " " << b.getValue() << " " << b.getCategory() << endl;
+            cout << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }else{
             throw out_of_range("BarChart: i out of bounds");
         }
         
-        return b;
+        return bars[i];
     }
     
     // dump
@@ -195,7 +205,7 @@ class BarChart {
     // cname 3 category3" <-newline here
     void dump(ostream &output) {
 
-        output << "frame:" << frame << endl; 
+        // output << "frame:" << frame << endl; 
         for(int i = 0; i < capacity; i++){
             output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }
@@ -210,12 +220,14 @@ class BarChart {
     	int lenMax = 60;  // this is number of BOXs that should be printed
         int nBoxes = lenMax;
                           // for the top bar (max value)
+        return ;
         sort(bars, bars+capacity, greater<Bar>());
 
 
         for(int i = 0; i <= capacity; i++){
             output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }
+        return;
 
         // TO DO: read this example and this erase it.
         // e.g. Here I am plotting 60 red BOXs to output
