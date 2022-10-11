@@ -134,6 +134,9 @@ class BarChart {
 
         // TO DO:  Write this destructor.
         delete[] bars;
+        bars = nullptr;
+        capacity = 0;
+        size = 0;
         
     }
     
