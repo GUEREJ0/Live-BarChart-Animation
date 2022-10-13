@@ -67,9 +67,13 @@ void testBarChart(){
 	BarChart test(10);
 	test = bc;
 	BarChart test2(bc);
+	cout << "bc Dump().\n";
 	bc.dump(cout);
+	cout << "copy constructor test dump().\n";
 	test.dump(cout);
+	cout << "second copy constructor test dump().\n";
 	test2.dump(cout);
+	cout << "End of testBarChart().\n";
 }
 
 void testGraph(map<string, string> colorMap){
@@ -77,7 +81,6 @@ void testGraph(map<string, string> colorMap){
 	bc.addBar("Chicago", 1020, "NA");
 	bc.addBar("Paris", 1200, "Europe");
 	bc.addBar("Chicago", 1300, "NA");
-	bc.dump(cout);
 	bc.graph(cout, colorMap, 3);
 	return;
 
@@ -99,9 +102,8 @@ int main() {
 	colorMap.emplace("RESET", RESET);
 
 	cout << " ==========================================================\n";
-	// testGraph(colorMap);
 	testBarChart(); // Function to test copy constructors and for memory leaks.
-	
-	
+	cout << " ==========================================================\n";
+	testGraph(colorMap);
     return 0;
 }

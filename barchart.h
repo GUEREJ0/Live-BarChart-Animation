@@ -160,17 +160,17 @@ class BarChart {
     // returns true if successful
     // returns false if there is not room
     bool addBar(string name, int value, string category) {
-        cout << "SIZE : " << size << endl;
-        cout << "Capacity : " << capacity << endl;
+        // cout << "SIZE : " << size << endl;
+        // cout << "Capacity : " << capacity << endl;
 
         if(capacity < size){
             Bar temp(name, value, category);
             bars[capacity] = temp;
             capacity++;
-            cout << "Added.\n";
+            // cout << "Added.\n";
             return true;
         }
-        cout << "Did not add.\n";
+        // cout << "Did not add.\n";
         return false;
     }
     
@@ -205,7 +205,7 @@ class BarChart {
     // cname 3 category3" <-newline here
     void dump(ostream &output) {
 
-        // output << "frame:" << frame << endl; 
+        output << "frame:" << frame << endl; 
         for(int i = 0; i < capacity; i++){
             output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }
@@ -218,42 +218,32 @@ class BarChart {
     // top is number of bars you'd like plotted on each frame (top 10? top 12?)
     void graph(ostream &output, map<string, string> &colorMap, int top) {
     	int lenMax = 60;  // this is number of BOXs that should be printed
-        int nBoxes = lenMax;
+        double nBoxes = lenMax;
                           // for the top bar (max value)
-        return ;
-        sort(bars, bars+capacity, greater<Bar>());
+        sort(bars, bars+size, greater<Bar>());
 
-
-        for(int i = 0; i <= capacity; i++){
+        cout << "Printing sort.\n";
+        for(int i = 0; i < capacity; i++){
             output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }
-        return;
 
         // TO DO: read this example and this erase it.
         // e.g. Here I am plotting 60 red BOXs to output
-        string color = "\033[1;36m";  // you should get this from colorMap
+        string color = RED;  // you should get this from colorMap
         string barstr = "";
-        for (int i = 0; i < lenMax; i++) { // Print the box
-            barstr += BOX;
+        for(int x = 0; x < size; x++){
+            nBoxes = ((bars[x].getValue() * 1.0 / bars[0].getValue()* 1.0) * lenMax);
+            for (int i = 0; i < nBoxes; i++) { // Print the box
+                barstr += BOX;
+            }
+            color = colorMap[bars[x].getCategory()];
+            output << color << barstr << " " << bars[x].getName() << " " << bars[x].getValue() << endl;
+            barstr.clear();
+
         }
-        output << color << barstr << " ";
-        barstr.clear();
 
-        for(int i = 1; i <= capacity; i++){
-            // cout << bars[i] << endl;
-
-
-
-            
-        }
         return;
 
-        
-        
-        
-    	
-        // TO DO:  Write this function.
-        
     }
     
 };
