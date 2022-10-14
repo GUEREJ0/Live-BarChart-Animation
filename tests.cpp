@@ -81,9 +81,39 @@ void testGraph(map<string, string> colorMap){
 	bc.addBar("Chicago", 1020, "NA");
 	bc.addBar("Paris", 1200, "Europe");
 	bc.addBar("Chicago", 1300, "NA");
-	bc.graph(cout, colorMap, 3);
+	bc.graph(cout, colorMap, 2);
 	return;
 
+}
+
+void testBarChartAnimate(){
+	string filename = "cities.txt";
+	ifstream inFile(filename);
+	string title;
+	getline(inFile, title);
+	string xlabel;
+	getline(inFile, xlabel);
+	string source;
+	getline(inFile, source);
+	string line;
+	BarChartAnimate bca(title, xlabel, source);
+
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	bca.addFrame(inFile);
+	
+	return;
+	
+	while (!inFile.eof()) {
+		bca.addFrame(inFile);
+	}
+	return; 
+	bca.animate(cout, 12, -1);
 }
 
 int main() {
@@ -105,5 +135,7 @@ int main() {
 	testBarChart(); // Function to test copy constructors and for memory leaks.
 	cout << " ==========================================================\n";
 	testGraph(colorMap);
+	cout << "===========================================================\n";
+	testBarChartAnimate();
     return 0;
 }

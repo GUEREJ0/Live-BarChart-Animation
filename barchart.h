@@ -231,7 +231,7 @@ class BarChart {
         // e.g. Here I am plotting 60 red BOXs to output
         string color = RED;  // you should get this from colorMap
         string barstr = "";
-        for(int x = 0; x < size; x++){
+        for(int x = 0; x < top; x++){
             nBoxes = ((bars[x].getValue() * 1.0 / bars[0].getValue()* 1.0) * lenMax);
             for (int i = 0; i < nBoxes; i++) { // Print the box
                 barstr += BOX;

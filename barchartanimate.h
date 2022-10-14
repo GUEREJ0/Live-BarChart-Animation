@@ -37,6 +37,9 @@ class BarChartAnimate {
     // Like the ourvector, the barcharts C-array should be constructed here
     // with a capacity of 4.
     BarChartAnimate(string title, string xlabel, string source) {
+        barcharts = new BarChart[4];
+        size  = 4;
+        capacity = 0;
         
         // TO DO:  Write this constructor.
         
@@ -49,6 +52,9 @@ class BarChartAnimate {
     // by BarChartAnimate.
     //
     virtual ~BarChartAnimate() {
+        delete[] barcharts;
+        size = 0;
+        capacity = 0;
         
         // TO DO:  Write this destructor.
         
@@ -60,8 +66,49 @@ class BarChartAnimate {
     // ourvector.h for how to double the capacity).
     // See application.cpp and handout for pre and post conditions.
     void addFrame(ifstream &file) {
+        string line, frame, country, name, value, category;
+        int nLines = -1;
     	
-        // TO DO:  Write this constructor.
+        getline(file, line);
+        getline(file, line);
+        nLines = stoi(line);
+        BarChart bc(nLines);
+
+        for(int i = 0; i < nLines; i++){
+            getline(file, line);
+            stringstream ss(line);
+
+            while(ss.good()){
+                // cout << line << endl;
+                getline(ss, frame, ',');
+                getline(ss, country, ',');
+                getline(ss, name, ',');
+                getline(ss, value, ',');
+                getline(ss, category, ',');
+
+
+                bc.addBar(name, stoi(value), category);
+            }
+            bc.setFrame(frame); 
+        }
+        if(capacity == size -1){
+            cout << "!GROWING!\n";
+            size = size * 2;
+            BarChart* temp = new BarChart[size];
+            for(int i = 0; i < capacity; i++){
+                temp[i] = barcharts[i];
+            }
+            delete[] barcharts;
+            barcharts = temp;
+            capacity++;
+            barcharts[capacity] = bc;
+
+        }else{
+            capacity++;
+            barcharts[capacity] = bc;
+        }
+        bc.dump(cout);
+        cout << endl << endl << endl;
         
     }
 
