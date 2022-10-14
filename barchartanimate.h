@@ -66,11 +66,14 @@ class BarChartAnimate {
     // ourvector.h for how to double the capacity).
     // See application.cpp and handout for pre and post conditions.
     void addFrame(ifstream &file) {
+
+
         string line, frame, country, name, value, category;
         int nLines = -1;
     	
         getline(file, line);
         getline(file, line);
+        if(line == ""){return;}
         nLines = stoi(line);
         BarChart bc(nLines);
 
@@ -92,7 +95,7 @@ class BarChartAnimate {
             bc.setFrame(frame); 
         }
         if(capacity == size -1){
-            cout << "!GROWING!\n";
+            // cout << "!GROWING!\n";
             size = size * 2;
             BarChart* temp = new BarChart[size];
             for(int i = 0; i < capacity; i++){
@@ -100,16 +103,12 @@ class BarChartAnimate {
             }
             delete[] barcharts;
             barcharts = temp;
-            capacity++;
             barcharts[capacity] = bc;
-
+            capacity++;
         }else{
-            capacity++;
             barcharts[capacity] = bc;
-        }
-        bc.dump(cout);
-        cout << endl << endl << endl;
-        
+            capacity++;
+        }   
     }
 
     // animate:
@@ -121,6 +120,14 @@ class BarChartAnimate {
     // in between each frame.
 	void animate(ostream &output, int top, int endIter) {
 		unsigned int microsecond = 50000;
+
+        if(endIter == -1 || endIter >= capacity){endIter = capacity;}
+
+        for(int i = 0; i < endIter; i++){
+            usleep(3 * microsecond);
+            barcharts[i].graph(cout, ColorMap, top);
+            cout << CLEARCONSOLE;
+        }
         
         // TO DO:  Write this function.
 			
@@ -130,11 +137,7 @@ class BarChartAnimate {
     // Public member function.
     // Returns the size of the BarChartAnimate object.
     //
-    int getSize(){
-        
-        return 0;  // TO DO:  update this, it is only here so code compiles.
-        
-    }
+    int getSize(){return size;}
 
     //
     // Public member function.

@@ -3,6 +3,7 @@
 using namespace std;
 
 
+
 bool testBarDefaultConstructor() {
 	Bar b;
     if (b.getName() != "") {
@@ -78,10 +79,10 @@ void testBarChart(){
 
 void testGraph(map<string, string> colorMap){
 	BarChart bc(3);
-	bc.addBar("Chicago", 1020, "NA");
+	bc.addBar("Chicago", 1020, "North America");
 	bc.addBar("Paris", 1200, "Europe");
-	bc.addBar("Chicago", 1300, "NA");
-	bc.graph(cout, colorMap, 2);
+	bc.addBar("Chicago", 1300, "North America");
+	bc.graph(cout, colorMap, 3);
 	return;
 
 }
@@ -98,21 +99,11 @@ void testBarChartAnimate(){
 	string line;
 	BarChartAnimate bca(title, xlabel, source);
 
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	bca.addFrame(inFile);
-	
-	return;
 	
 	while (!inFile.eof()) {
 		bca.addFrame(inFile);
 	}
-	return; 
+
 	bca.animate(cout, 12, -1);
 }
 
@@ -121,21 +112,15 @@ int main() {
 	testBarParamConstructor();
 	testBarOperatorOverload();
 
-	map <string, string> colorMap;
-	colorMap.emplace("CYAN", CYAN);
-	colorMap.emplace("GREEN", GREEN);
-	colorMap.emplace("GOLD", GOLD);
-	colorMap.emplace("RED", RED);
-	colorMap.emplace("PURPLE", PURPLE);
-	colorMap.emplace("BLUE", BLUE);
-	colorMap.emplace("WHITE", WHITE);
-	colorMap.emplace("RESET", RESET);
+	cout << ColorMap.size();
 
-	cout << " ==========================================================\n";
-	testBarChart(); // Function to test copy constructors and for memory leaks.
-	cout << " ==========================================================\n";
-	testGraph(colorMap);
-	cout << "===========================================================\n";
+
+
+	// cout << " ==========================================================\n";
+	// testBarChart(); // Function to test copy constructors and for memory leaks.
+	// cout << " ==========================================================\n";
+	// testGraph(colorMap);
+	// cout << "===========================================================\n";
 	testBarChartAnimate();
     return 0;
 }

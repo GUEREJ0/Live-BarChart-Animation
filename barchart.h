@@ -39,7 +39,8 @@ const string BLUE("\033[1;34m");
 const string WHITE("\033[1;37m");
 const string RESET("\033[0m");
 const vector<string> COLORS = {CYAN, GREEN, GOLD, RED, PURPLE, BLUE, WHITE};
-
+map<string, string> ColorMap = {{"East Asia", COLORS[3]}, {"Middle East", COLORS[4]}, {"South Asia", COLORS[5]}, {"Europe", COLORS[0]},
+{"North America", COLORS[1]}, {"Latin America", COLORS[2]}};
 
 //
 // BarChart
@@ -216,31 +217,33 @@ class BarChart {
     // output is any stream (cout, file stream, string stream)
     // colorMap maps category -> color
     // top is number of bars you'd like plotted on each frame (top 10? top 12?)
-    void graph(ostream &output, map<string, string> &colorMap, int top) {
+    void graph(ostream &output, map<string, string> &colors, int top) {
     	int lenMax = 60;  // this is number of BOXs that should be printed
         double nBoxes = lenMax;
+        string color;
                           // for the top bar (max value)
         sort(bars, bars+size, greater<Bar>());
 
-        cout << "Printing sort.\n";
-        for(int i = 0; i < capacity; i++){
-            output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
-        }
+        // cout << "Printing sort.\n";
+        // for(int i = 0; i < capacity; i++){
+        //     output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
+        // }
 
         // TO DO: read this example and this erase it.
         // e.g. Here I am plotting 60 red BOXs to output
-        string color = RED;  // you should get this from colorMap
         string barstr = "";
         for(int x = 0; x < top; x++){
             nBoxes = ((bars[x].getValue() * 1.0 / bars[0].getValue()* 1.0) * lenMax);
             for (int i = 0; i < nBoxes; i++) { // Print the box
                 barstr += BOX;
             }
-            color = colorMap[bars[x].getCategory()];
+            color = colors.at(bars[x].getCategory());
             output << color << barstr << " " << bars[x].getName() << " " << bars[x].getValue() << endl;
             barstr.clear();
-
         }
+        cout << endl;
+
+        color = RESET;
 
         return;
 
