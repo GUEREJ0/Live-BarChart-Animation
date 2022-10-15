@@ -104,6 +104,8 @@ void testBarChartAnimate(){
 		bca.addFrame(inFile);
 	}
 
+	return;
+
 	bca.animate(cout, 12, -1);
 }
 

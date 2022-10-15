@@ -67,7 +67,7 @@ class BarChart {
         bars = nullptr;
         capacity = 0;
         size = 0;
-        string frame;
+        string frame = "";
         
     }
     
@@ -79,6 +79,7 @@ class BarChart {
         bars = new Bar[n];
         capacity = 0;
         size = n;
+        frame = "";
         
     }
 
@@ -130,6 +131,7 @@ class BarChart {
         bars = nullptr;
         capacity = 0;
         size = 0;
+        frame = "";
         
     }
     
@@ -146,15 +148,18 @@ class BarChart {
         bars = nullptr;
         capacity = 0;
         size = 0;
+        frame = "";
         
     }
     
     // setFrame
-    void setFrame(string frame) {this->frame = frame;}
+    void setFrame(string frame){
+        this->frame = frame;
+    }
     
     // getFrame()
     // Returns the frame of the BarChart oboject.
-    string getFrame() const {return frame;}
+    string getFrame() {return frame;}
 
     // addBar
     // adds a Bar to the BarChart.
@@ -241,8 +246,6 @@ class BarChart {
             output << color << barstr << " " << bars[x].getName() << " " << bars[x].getValue() << endl;
             barstr.clear();
         }
-        cout << endl;
-
         color = RESET;
 
         return;

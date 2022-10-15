@@ -29,6 +29,9 @@ class BarChartAnimate {
     BarChart* barcharts;  // pointer to a C-style array
     int size;
     int capacity;
+    string title;
+    string xlabel;
+    string source;
     map<string, string> colorMap;
 
  public:
@@ -40,6 +43,9 @@ class BarChartAnimate {
         barcharts = new BarChart[4];
         size  = 4;
         capacity = 0;
+        this->title = title;
+        this->xlabel = xlabel;
+        this->source = source;
         
         // TO DO:  Write this constructor.
         
@@ -55,6 +61,7 @@ class BarChartAnimate {
         delete[] barcharts;
         size = 0;
         capacity = 0;
+        title, xlabel, source = "";
         
         // TO DO:  Write this destructor.
         
@@ -89,10 +96,11 @@ class BarChartAnimate {
                 getline(ss, value, ',');
                 getline(ss, category, ',');
 
-
+                // cout << "From getline: " << frame << endl;
                 bc.addBar(name, stoi(value), category);
+                bc.setFrame(frame);
+                // cout << "From barchart: " << bc.getFrame() << endl;
             }
-            bc.setFrame(frame); 
         }
         if(capacity == size -1){
             // cout << "!GROWING!\n";
@@ -121,11 +129,21 @@ class BarChartAnimate {
 	void animate(ostream &output, int top, int endIter) {
 		unsigned int microsecond = 50000;
 
+
+        for(int i = 0; i < capacity; i++){
+            output << i << ": " << barcharts[i].getFrame() << endl;
+        }
+        return;
+
         if(endIter == -1 || endIter >= capacity){endIter = capacity;}
 
         for(int i = 0; i < endIter; i++){
             usleep(3 * microsecond);
+            cout << RESET << title << endl;
+            cout << RESET << source << endl;
             barcharts[i].graph(cout, ColorMap, top);
+            cout << RESET << xlabel << endl;
+            cout << RESET << "Frame: " << barcharts[i].getFrame() << endl;
             cout << CLEARCONSOLE;
         }
         
@@ -147,10 +165,11 @@ class BarChartAnimate {
     // "BarChartAnimate: i out of bounds"
     //
     BarChart& operator[](int i){
-        BarChart bc;
         
-        // TO DO:  Write this function.
-        
-        return bc; // TO DO:  update this, it is only here so code compiles.
+        if(i > 0 && i < size){
+            return barcharts[i];
+        }else{
+            throw("BarChartAnimate: i out of bounds");
+        }
     }
 };
