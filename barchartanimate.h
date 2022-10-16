@@ -61,7 +61,9 @@ class BarChartAnimate {
         delete[] barcharts;
         size = 0;
         capacity = 0;
-        title, xlabel, source = "";
+        title = "";
+        xlabel = "";
+        source = "";
         
         // TO DO:  Write this destructor.
         
@@ -91,8 +93,8 @@ class BarChartAnimate {
             while(ss.good()){
                 // cout << line << endl;
                 getline(ss, frame, ',');
-                getline(ss, country, ',');
                 getline(ss, name, ',');
+                getline(ss, country, ',');
                 getline(ss, value, ',');
                 getline(ss, category, ',');
 
@@ -130,20 +132,15 @@ class BarChartAnimate {
 		unsigned int microsecond = 50000;
 
 
-        for(int i = 0; i < capacity; i++){
-            output << i << ": " << barcharts[i].getFrame() << endl;
-        }
-        return;
-
         if(endIter == -1 || endIter >= capacity){endIter = capacity;}
 
         for(int i = 0; i < endIter; i++){
-            usleep(3 * microsecond);
             cout << RESET << title << endl;
             cout << RESET << source << endl;
             barcharts[i].graph(cout, ColorMap, top);
             cout << RESET << xlabel << endl;
             cout << RESET << "Frame: " << barcharts[i].getFrame() << endl;
+            usleep(3 * microsecond);
             cout << CLEARCONSOLE;
         }
         

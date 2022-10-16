@@ -67,7 +67,7 @@ class BarChart {
         bars = nullptr;
         capacity = 0;
         size = 0;
-        string frame = "";
+        frame = "";
         
     }
     
@@ -95,6 +95,7 @@ class BarChart {
         bars = new Bar[other.size];
         size = other.size;
         capacity = other.capacity;
+        frame = other.frame;
 
         for(int i = 0; i < other.size; i++){
             bars[i] = other.bars[i];
@@ -115,6 +116,7 @@ class BarChart {
         bars = new Bar[other.size];
         this->size = other.size;
         this->capacity = other.capacity;
+        this->frame = other.frame;
 
         for(int i = 0; i < other.getSize(); i++){
             this->bars[i] = other.bars[i];
