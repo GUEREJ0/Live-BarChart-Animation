@@ -173,7 +173,45 @@ void testEqualsOperator(){
 	return;
 }
 
+void testAddFrameThrones(){
+	string filename = "game-of-thrones.txt";
+	ifstream inFile(filename);
+	string title;
+	getline(inFile, title);
+	string xlabel;
+	getline(inFile, xlabel);
+	string source;
+	getline(inFile, source);
+	string line;
+	BarChartAnimate bca(title, xlabel, source);
 
+	
+	while (!inFile.eof()) {
+		bca.addFrame(inFile);
+	}
+
+	bca.dump();
+}
+
+void testAddFramesCities(){
+	string filename = "cities.txt";
+	ifstream inFile(filename);
+	string title;
+	getline(inFile, title);
+	string xlabel;
+	getline(inFile, xlabel);
+	string source;
+	getline(inFile, source);
+	string line;
+	BarChartAnimate bca(title, xlabel, source);
+
+	
+	while (!inFile.eof()) {
+		bca.addFrame(inFile);
+	}
+
+	bca.dump();
+}
 
 int main(){
 	testBarDefaultConstructor();
@@ -181,17 +219,17 @@ int main(){
 	testBarOperatorOverload();
 	testEqualsOperator();
 
-	cout << PURPLE << "TESTING COLOR.\n";
-	cout << COLORS.size() << endl;
-	// return 0;
-
 	// cout << " ==========================================================\n";
 	// testBarChart(); // Function to test copy constructors and for memory leaks.
 	// cout << " ==========================================================\n";
 	// testGraph(colorMap);
 	// cout << "===========================================================\n";
+	testAddFrameThrones();
+	// cout << "===========================================================\n";
 	// testBarChartAnimate();
+	// cout << "===========================================================\n";
 	// testGameOfThrones();
-	testCreativeComponent();
+	// cout << "===========================================================\n";
+	// testCreativeComponent();
     return 0;
 }

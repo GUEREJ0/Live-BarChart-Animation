@@ -26,7 +26,8 @@ using namespace std;
 
 
 int main() {
-	
+	char input;
+	string freezeFrame;
 	string filename = "cities.txt";
 	ifstream inFile(filename);
 	string title;
@@ -35,14 +36,25 @@ int main() {
 	getline(inFile, xlabel);
 	string source;
 	getline(inFile, source);
-
+	string line;
 	BarChartAnimate bca(title, xlabel, source);
+
 	
 	while (!inFile.eof()) {
 		bca.addFrame(inFile);
 	}
-	
-	bca.animate(cout, 12, -1);
 
-    return 0;
+
+	cout << "Enter # to control the animation, if not enter anything else...\n";
+	cin >> input;
+
+	if(input == '#'){
+		cout << "Enter which frame you would like to freeze at :";
+		cin >> freezeFrame;
+		bca.animate(cout, 12, -1, freezeFrame);
+	}else{
+		bca.animate(cout, 12, -1);
+	}
+
+	return 0;
 }

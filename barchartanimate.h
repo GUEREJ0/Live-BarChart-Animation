@@ -1,5 +1,9 @@
 // barchartanimate.h
-// TO DO:  add header comment here.  Also add function header comments below.
+// barchart.h
+// Luis de Santos
+// CS251 - Adam Koehler
+// UIN : ldesa3
+// MacOSX using VScode
 
 #include <iostream>
 #include <fstream>
@@ -34,20 +38,20 @@ class BarChartAnimate {
     string source;
     map<string, string> ColorMap;
 
+    int ColorVectorItr = 0; // To loop through the iterator only used by AddFrame 
+
  public:
 
     // a parameterized constructor:
     // Like the ourvector, the barcharts C-array should be constructed here
     // with a capacity of 4.
     BarChartAnimate(string title, string xlabel, string source) {
-        barcharts = new BarChart[4];
+        barcharts = new BarChart[4]; //Allocate memory for a an array of BarChart size 4
         size  = 0;
         capacity = 4;
         this->title = title;
         this->xlabel = xlabel;
         this->source = source;
-        
-        // TO DO:  Write this constructor.
         
     }
 
@@ -58,15 +62,12 @@ class BarChartAnimate {
     // by BarChartAnimate.
     //
     virtual ~BarChartAnimate() {
-        delete[] barcharts;
+        delete[] barcharts; // De-allocating the array
         size = 0;
         capacity = 0;
         title = "";
         xlabel = "";
         source = "";
-        
-        // TO DO:  Write this destructor.
-        
     }
 
     // addFrame:
@@ -75,7 +76,7 @@ class BarChartAnimate {
     // ourvector.h for how to double the capacity).
     // See application.cpp and handout for pre and post conditions.
     void addFrame(ifstream &file) {
-        int ColorVectorItr = 0; // Initializing variables
+         // Initializing variables
 
         string line, frame, country, name, value, category;
         int nLines = -1;
@@ -87,49 +88,53 @@ class BarChartAnimate {
         BarChart bc(nLines); 
 
         for(int i = 0; i < nLines; i++){
+
             getline(file, line);
             stringstream ss(line);
 
-            while(ss.good()){
-                // cout << line << endl;
+            while(ss.good()){ // Using stringstream and it's delimter, I grab the string up until the end of line and 
+                // store them in their respective variables
                 getline(ss, frame, ',');
                 getline(ss, name, ',');
                 getline(ss, country, ',');
                 getline(ss, value, ',');
                 getline(ss, category, ',');
 
-                if(ColorVectorItr == COLORS.size()){ColorVectorItr = 0;} // Adding each unique category to the color map
+                if(ColorVectorItr == COLORS.size()){ColorVectorItr = 0;} // Incase if we already used all the colors in the vector, we start over
 
-                if(ColorMap.find(category) == ColorMap.end()){
+                if(ColorMap.find(category) == ColorMap.end()){ // Adding colors to each unique Category
                     ColorMap.emplace(category, COLORS.at(ColorVectorItr));
                     ColorVectorItr++;
                 }
-                // else{
-                //     ColorMap[category] = COLORS[ColorVectorItr];
-                // }
 
-                // cout << "From getline: " << frame << endl;
-                bc.addBar(name, stoi(value), category);
-                bc.setFrame(frame);
-                // cout << "From barchart: " << bc.getFrame() << endl;
+                bc.addBar(name, stoi(value), category); // Adding bar to barchart
+                bc.setFrame(frame); // Setting frame
             }
         }
-        // bc.dump(cout);
-        if(size == capacity -1){
-            // cout << "!GROWING!\n";
-            capacity = capacity * 2;
+        if(size == capacity -1){ // Dynamically growing the array.
+            capacity = capacity * 2; // Doubling capacity
             BarChart* temp = new BarChart[capacity];
-            for(int i = 0; i < size; i++){
+
+            for(int i = 0; i < size; i++){ // Copying elements over
                 temp[i] = barcharts[i];
             }
-            delete[] barcharts;
+
+            delete[] barcharts; // De-allocate old array
             barcharts = temp;
             barcharts[size] = bc;
             size++;
+
         }else{
             barcharts[size] = bc;
             size++;
         }   
+    }
+
+    void dump(){ // Debugging function just to see if add frame is working properly.
+        for(int i = 0; i < size; i++){
+            barcharts[i].dump(cout);
+        }
+        return;
     }
 
     // animate:
@@ -142,10 +147,9 @@ class BarChartAnimate {
 	void animate(ostream &output, int top, int endIter) {
 		unsigned int microsecond = 50000;
 
+        if(endIter == -1 || endIter >= size){endIter = size;} // User input, error checking
 
-        if(endIter == -1 || endIter >= size){endIter = size;}
-
-        for(int i = 0; i < endIter; i++){
+        for(int i = 0; i < endIter; i++){ // Looping through the array of BarCharts and printing
             cout << RESET << title << endl;
             cout << RESET << source << endl;
             barcharts[i].graph(cout, ColorMap, top);
@@ -154,20 +158,13 @@ class BarChartAnimate {
             usleep(3 * microsecond);
             cout << CLEARCONSOLE;
         }
-        
-        // TO DO:  Write this function.
-			
+
 	}
     // Creative component that lets you freeze at certain frames, step through and continue.
+    // Kind of like a GDB for this program
     void animate(ostream &output, int top, int endIter, string freeze) {
 		unsigned int microsecond = 50000;
         char input;
-
-        for(auto it = ColorMap.begin(); it != ColorMap.end(); it++){
-            cout << it->first << " : " << it->second << endl;
-        }
-        return;
-
 
         if(endIter == -1 || endIter >= size){endIter = size;}
 
@@ -198,9 +195,6 @@ class BarChartAnimate {
             
             cout << CLEARCONSOLE;
         }
-        
-        // TO DO:  Write this function.
-			
 	}
 
     //

@@ -1,5 +1,9 @@
 // bar.h
-// TO DO:  add header comment here.  Also add function header comments below.
+// barchart.h
+// Luis de Santos
+// CS251 - Adam Koehler
+// UIN : ldesa3
+// MacOSX using VScode
 
 #include <iostream>
 #include <string>
@@ -47,57 +51,42 @@ class Bar {
     // destructor:
     virtual ~Bar() {
         
-        // TO DO:  Write this destructor or leave empty if not needed.
+        name = "";
+        value = 0;
+        category = "";
         
     }
 
     // getName:
-	string getName() const{
-        
-        // TO DO:  Write this function.
-        
-        return name;  // TO DO:  update this, it is only here so code compiles.
-	}
+	string getName() const{return name;}
 
     // getValue:
-	int getValue() const{
-        
-		// TO DO:  Write this function.
-        
-        return value;    // TO DO:  update this, it is only here so code compiles.
-	}
+	int getValue() const{return value;}
 
     // getCategory:
-	string getCategory() const{
-        
-        // TO DO:  Write this function.
-        
-        return category; // TO DO:  update this, it is only here so code compiles.
-	}
+	string getCategory() const{return category;}
 
 	// operators
-    // TO DO:  Write these operators.  This allows you to compare two Bar
-    // objects.  Comparison should be based on the Bar's value.  For example:
+    // Overload comparison operators to compare each object of Bar.h's value
 	bool operator<(const Bar &other) const {
 
         if(this->value < other.getValue()){return true;}
-        return false;  // TO DO:  update this, it is only here so code compiles.
+        return false; 
 	}
 
 	bool operator<=(const Bar &other) const {
         if(this->value <= other.getValue()){ return true;}
-        return false;  // TO DO:  update this, it is only here so code compiles.
+        return false; 
 	}
 
 	bool operator>(const Bar &other) const {
         if(this->value > other.getValue()){return true;}
-        return false;  // TO DO:  update this, it is only here so code compiles.
+        return false; 
 	}
 
 	bool operator>=(const Bar &other) const {
         if(this->value >= other.getValue()){return true;}
-        
-        return false;  // TO DO:  update this, it is only here so code compiles.
+        return false;
 	}
 };
 
