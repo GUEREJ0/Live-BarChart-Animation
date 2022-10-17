@@ -39,8 +39,6 @@ const string BLUE("\033[1;34m");
 const string WHITE("\033[1;37m");
 const string RESET("\033[0m");
 const vector<string> COLORS = {CYAN, GREEN, GOLD, RED, PURPLE, BLUE, WHITE};
-map<string, string> ColorMap = {{"East Asia", COLORS[3]}, {"Middle East", COLORS[4]}, {"South Asia", COLORS[5]}, {"Europe", COLORS[0]},
-{"North America", COLORS[1]}, {"Latin America", COLORS[2]}};
 
 //
 // BarChart
@@ -77,8 +75,8 @@ class BarChart {
         
         // TO DO:  Write this constructor.
         bars = new Bar[n];
-        capacity = 0;
-        size = n;
+        capacity = n;
+        size = 0;
         frame = "";
         
     }
@@ -92,7 +90,7 @@ class BarChart {
     //
     BarChart(const BarChart& other) {
         
-        bars = new Bar[other.size];
+        bars = new Bar[other.capacity];
         size = other.size;
         capacity = other.capacity;
         frame = other.frame;
@@ -113,12 +111,12 @@ class BarChart {
         
         if(bars != nullptr){delete [] bars;}
 
-        bars = new Bar[other.size];
+        bars = new Bar[other.capacity];
         this->size = other.size;
         this->capacity = other.capacity;
         this->frame = other.frame;
 
-        for(int i = 0; i < other.getSize(); i++){
+        for(int i = 0; i < size; i++){
             this->bars[i] = other.bars[i];
         }
 
@@ -171,10 +169,10 @@ class BarChart {
         // cout << "SIZE : " << size << endl;
         // cout << "Capacity : " << capacity << endl;
 
-        if(capacity < size){
+        if(size < capacity){
             Bar temp(name, value, category);
-            bars[capacity] = temp;
-            capacity++;
+            bars[size] = temp;
+            size++;
             // cout << "Added.\n";
             return true;
         }
@@ -193,7 +191,7 @@ class BarChart {
     // "BarChart: i out of bounds"
     Bar& operator[](int i) {
 
-        if(i > 0 && i < capacity){
+        if(i > 0 && i < size){
             cout << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
         }else{
             throw out_of_range("BarChart: i out of bounds");
@@ -230,11 +228,9 @@ class BarChart {
         string color;
                           // for the top bar (max value)
         sort(bars, bars+size, greater<Bar>());
+        if(top < 0){top = size;}
+        if(top > size){top = size;}
 
-        // cout << "Printing sort.\n";
-        // for(int i = 0; i < capacity; i++){
-        //     output << bars[i].getName() << " " << bars[i].getValue() << " " << bars[i].getCategory() << endl;
-        // }
 
         // TO DO: read this example and this erase it.
         // e.g. Here I am plotting 60 red BOXs to output
@@ -244,7 +240,8 @@ class BarChart {
             for (int i = 0; i < nBoxes; i++) { // Print the box
                 barstr += BOX;
             }
-            color = colors.at(bars[x].getCategory());
+            // color = colors.at(bars[x].getCategory());
+            color = WHITE;
             output << color << barstr << " " << bars[x].getName() << " " << bars[x].getValue() << endl;
             barstr.clear();
         }

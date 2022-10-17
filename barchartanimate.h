@@ -32,7 +32,8 @@ class BarChartAnimate {
     string title;
     string xlabel;
     string source;
-    map<string, string> colorMap;
+    map<string, string> ColorMap = {{"East Asia", COLORS[3]}, {"Middle East", COLORS[4]}, {"South Asia", COLORS[5]}, {"Europe", COLORS[0]},
+{"North America", COLORS[1]}, {"Latin America", COLORS[2]}};
 
  public:
 
@@ -41,8 +42,8 @@ class BarChartAnimate {
     // with a capacity of 4.
     BarChartAnimate(string title, string xlabel, string source) {
         barcharts = new BarChart[4];
-        size  = 4;
-        capacity = 0;
+        size  = 0;
+        capacity = 4;
         this->title = title;
         this->xlabel = xlabel;
         this->source = source;
@@ -104,20 +105,21 @@ class BarChartAnimate {
                 // cout << "From barchart: " << bc.getFrame() << endl;
             }
         }
-        if(capacity == size -1){
+        // bc.dump(cout);
+        if(size == capacity -1){
             // cout << "!GROWING!\n";
-            size = size * 2;
-            BarChart* temp = new BarChart[size];
-            for(int i = 0; i < capacity; i++){
+            capacity = capacity * 2;
+            BarChart* temp = new BarChart[capacity];
+            for(int i = 0; i < size; i++){
                 temp[i] = barcharts[i];
             }
             delete[] barcharts;
             barcharts = temp;
-            barcharts[capacity] = bc;
-            capacity++;
+            barcharts[size] = bc;
+            size++;
         }else{
-            barcharts[capacity] = bc;
-            capacity++;
+            barcharts[size] = bc;
+            size++;
         }   
     }
 
@@ -132,7 +134,7 @@ class BarChartAnimate {
 		unsigned int microsecond = 50000;
 
 
-        if(endIter == -1 || endIter >= capacity){endIter = capacity;}
+        if(endIter == -1 || endIter >= size){endIter = size;}
 
         for(int i = 0; i < endIter; i++){
             cout << RESET << title << endl;
@@ -163,7 +165,7 @@ class BarChartAnimate {
     //
     BarChart& operator[](int i){
         
-        if(i > 0 && i < size){
+        if(i > 0 && i < capacity){
             return barcharts[i];
         }else{
             throw("BarChartAnimate: i out of bounds");
