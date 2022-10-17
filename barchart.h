@@ -60,7 +60,7 @@ class BarChart {
  public:
     
     // default constructor:
-    BarChart() {
+    BarChart() { // Initializing variables to nothing or null;
 
         bars = nullptr;
         capacity = 0;
@@ -110,6 +110,8 @@ class BarChart {
         if(this == &other) {return *this;}
         
         if(bars != nullptr){delete [] bars;}
+
+        delete[] bars;
 
         bars = new Bar[other.capacity];
         this->size = other.size;
@@ -240,8 +242,8 @@ class BarChart {
             for (int i = 0; i < nBoxes; i++) { // Print the box
                 barstr += BOX;
             }
-            // color = colors.at(bars[x].getCategory());
-            color = WHITE;
+            color = colors.at(bars[x].getCategory());
+            // color = WHITE;
             output << color << barstr << " " << bars[x].getName() << " " << bars[x].getValue() << endl;
             barstr.clear();
         }

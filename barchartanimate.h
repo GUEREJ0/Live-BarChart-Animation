@@ -32,8 +32,7 @@ class BarChartAnimate {
     string title;
     string xlabel;
     string source;
-    map<string, string> ColorMap = {{"East Asia", COLORS[3]}, {"Middle East", COLORS[4]}, {"South Asia", COLORS[5]}, {"Europe", COLORS[0]},
-{"North America", COLORS[1]}, {"Latin America", COLORS[2]}};
+    map<string, string> ColorMap;
 
  public:
 
@@ -76,16 +75,16 @@ class BarChartAnimate {
     // ourvector.h for how to double the capacity).
     // See application.cpp and handout for pre and post conditions.
     void addFrame(ifstream &file) {
-
+        int ColorVectorItr = 0; // Initializing variables
 
         string line, frame, country, name, value, category;
         int nLines = -1;
     	
+        getline(file, line); // Grabbing the number of lines to grab barchart information
         getline(file, line);
-        getline(file, line);
-        if(line == ""){return;}
+        if(line == ""){return;} // Tells us we're at the end of the file, so exit the function
         nLines = stoi(line);
-        BarChart bc(nLines);
+        BarChart bc(nLines); 
 
         for(int i = 0; i < nLines; i++){
             getline(file, line);
@@ -98,6 +97,16 @@ class BarChartAnimate {
                 getline(ss, country, ',');
                 getline(ss, value, ',');
                 getline(ss, category, ',');
+
+                if(ColorVectorItr == COLORS.size()){ColorVectorItr = 0;} // Adding each unique category to the color map
+
+                if(ColorMap.find(category) == ColorMap.end()){
+                    ColorMap.emplace(category, COLORS.at(ColorVectorItr));
+                    ColorVectorItr++;
+                }
+                // else{
+                //     ColorMap[category] = COLORS[ColorVectorItr];
+                // }
 
                 // cout << "From getline: " << frame << endl;
                 bc.addBar(name, stoi(value), category);
@@ -143,6 +152,50 @@ class BarChartAnimate {
             cout << RESET << xlabel << endl;
             cout << RESET << "Frame: " << barcharts[i].getFrame() << endl;
             usleep(3 * microsecond);
+            cout << CLEARCONSOLE;
+        }
+        
+        // TO DO:  Write this function.
+			
+	}
+    // Creative component that lets you freeze at certain frames, step through and continue.
+    void animate(ostream &output, int top, int endIter, string freeze) {
+		unsigned int microsecond = 50000;
+        char input;
+
+        for(auto it = ColorMap.begin(); it != ColorMap.end(); it++){
+            cout << it->first << " : " << it->second << endl;
+        }
+        return;
+
+
+        if(endIter == -1 || endIter >= size){endIter = size;}
+
+        for(int i = 0; i < endIter; i++){
+            cout << RESET << title << endl;
+            cout << RESET << source << endl;
+            barcharts[i].graph(cout, ColorMap, top);
+            cout << RESET << xlabel << endl;
+            cout << RESET << "Frame: " << barcharts[i].getFrame() << endl;
+            usleep(3 * microsecond);
+            if(barcharts[i].getFrame() == freeze){
+                cout << RESET;
+                output << "1) Enter C to continue the animation to the end.\n";
+                output << "2) Enter N to move onto the next frame.\n";
+                output << "3) Enter B to set another breakpoint at a certain frame.\n";
+                output << "4) Enter E to end program.\n";
+                cin >> input;
+                if(input == 'N' || input == 'n'){
+                    freeze = barcharts[i+1].getFrame();
+                }
+                else if(input == 'e' || input == 'E'){
+                    return;
+                }else if(input == 'B' || input == 'b'){
+                    output << "Enter desired frame to stop at : ";
+                    cin >> freeze;
+                }
+            }
+            
             cout << CLEARCONSOLE;
         }
         

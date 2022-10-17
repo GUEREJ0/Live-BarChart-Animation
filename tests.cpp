@@ -104,25 +104,94 @@ void testBarChartAnimate(){
 		bca.addFrame(inFile);
 	}
 
-	return;
+	bca.animate(cout, 12, -1);
+}
+
+void testGameOfThrones(){
+	string filename = "game-of-thrones.txt";
+	ifstream inFile(filename);
+	string title;
+	getline(inFile, title);
+	string xlabel;
+	getline(inFile, xlabel);
+	string source;
+	getline(inFile, source);
+	string line;
+	BarChartAnimate bca(title, xlabel, source);
+
+	
+	while (!inFile.eof()) {
+		bca.addFrame(inFile);
+	}
 
 	bca.animate(cout, 12, -1);
 }
 
-int main() {
+void testCreativeComponent(){
+	char input;
+	string freezeFrame;
+	string filename = "cities.txt";
+	ifstream inFile(filename);
+	string title;
+	getline(inFile, title);
+	string xlabel;
+	getline(inFile, xlabel);
+	string source;
+	getline(inFile, source);
+	string line;
+	BarChartAnimate bca(title, xlabel, source);
+
+	
+	while (!inFile.eof()) {
+		bca.addFrame(inFile);
+	}
+
+
+	cout << "Enter # to control the animation, if not enter anything else...\n";
+	cin >> input;
+
+	if(input == '#'){
+		cout << "Enter which frame you would like to freeze at :";
+		cin >> freezeFrame;
+		bca.animate(cout, 12, -1, freezeFrame);
+	}else{
+		bca.animate(cout, 12, -1);
+	}
+}
+
+void testEqualsOperator(){
+	Bar b1("Guada", 156, "Europe");
+	Bar b2("Guangzhou", 156, "Europe");
+
+	if(b1 >= b2 && b2 <= b1){
+		cout << GREEN << "Equals passed.\n";
+	}else{
+		cout << RED << "Equals failed.\n";
+	}
+
+	cout << RESET;
+	return;
+}
+
+
+
+int main(){
 	testBarDefaultConstructor();
 	testBarParamConstructor();
 	testBarOperatorOverload();
+	testEqualsOperator();
 
-	cout << ColorMap.size();
-
-
+	cout << PURPLE << "TESTING COLOR.\n";
+	cout << COLORS.size() << endl;
+	// return 0;
 
 	// cout << " ==========================================================\n";
 	// testBarChart(); // Function to test copy constructors and for memory leaks.
 	// cout << " ==========================================================\n";
 	// testGraph(colorMap);
 	// cout << "===========================================================\n";
-	testBarChartAnimate();
+	// testBarChartAnimate();
+	// testGameOfThrones();
+	testCreativeComponent();
     return 0;
 }
